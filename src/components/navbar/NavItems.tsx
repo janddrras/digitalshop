@@ -22,8 +22,6 @@ const NavItems = () => {
     }
   }, [])
 
-  const isAnyOpen = activeIndex !== null
-
   const navRef = useRef<HTMLDivElement | null>(null)
 
   useOnClickOutside(navRef, () => setActiveIndex(null))
@@ -39,13 +37,9 @@ const NavItems = () => {
           }
         }
 
-        const close = () => setActiveIndex(null)
-
         const isOpen = i === activeIndex
 
-        return (
-          <NavItem category={category} close={close} handleOpen={handleOpen} isOpen={isOpen} key={category.value} isAnyOpen={isAnyOpen} />
-        )
+        return <NavItem category={category} handleOpen={handleOpen} isOpen={isOpen} key={category.value} />
       })}
     </div>
   )
