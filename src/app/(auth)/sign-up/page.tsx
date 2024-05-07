@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/router"
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from "@/lib/validators"
+import { trpc } from "@/trpc/client"
 
 const SignUp = () => {
   const {
@@ -21,9 +22,11 @@ const SignUp = () => {
     resolver: zodResolver(AuthCredentialsValidator)
   })
 
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({})
+
   // const router = useRouter()
   const submitForm = ({ email, password }: TAuthCredentialsValidator) => {
-    console.log(email, password)
+    mutate({ email, password })
   }
 
   return (
@@ -63,7 +66,7 @@ const SignUp = () => {
                 {errors?.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
               </div>
 
-              <Button>Sign up</Button>
+              <Button disabled={isLoading}>Sign up</Button>
             </div>
           </form>
         </div>
