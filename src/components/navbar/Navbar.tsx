@@ -4,9 +4,14 @@ import { buttonVariants } from "../ui/button"
 import { Icons } from "../Icons"
 import NavItems from "./NavItems"
 import Cart from "../cart/Cart"
+import { getServerSideUser } from "@/lib/payload-utils"
+import { cookies } from "next/headers"
+import UserAccountNav from "./UserAccountNav"
 
-const Navbar = () => {
-  const user = null
+const Navbar = async () => {
+  const nextCookies = cookies()
+  const { user } = await getServerSideUser(nextCookies)
+
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
       <header className="relative bg-white">
@@ -27,22 +32,18 @@ const Navbar = () => {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {user ? null : (
+                  {user ? (
+                    <>
+                      <UserAccountNav user={user} />
+                      <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                    </>
+                  ) : (
                     <>
                       <Link href="/sign-in" className={buttonVariants({ variant: "ghost" })}>
                         Sign in
                       </Link>
                       <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                    </>
-                  )}
 
-                  {user ? (
-                    <>
-                      {/* <UserAccountNav user={user} /> */}
-                      <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                    </>
-                  ) : (
-                    <>
                       <Link href="/sign-up" className={buttonVariants({ variant: "ghost" })}>
                         Create account
                       </Link>
