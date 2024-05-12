@@ -24,7 +24,7 @@ export const paymentRouter = router({
     const order = await payload.create({
       collection: "orders",
       data: {
-        products: filteredProducts,
+        products: filteredProducts.map((prod) => prod.id),
         user: user.id,
         _isPaid: false
       }
@@ -52,10 +52,6 @@ export const paymentRouter = router({
     } catch (error) {
       console.error(error)
       return { url: null }
-    }
-
-    return {
-      sessionId: "sessionId"
     }
   })
 })

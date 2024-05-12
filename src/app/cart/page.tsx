@@ -15,13 +15,11 @@ const Page = () => {
 
   const router = useRouter()
 
-  // const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
-  //   onSuccess: ({ url }) => {
-  //     if (url) router.push(url)
-  //   }
-  // })
-  const createCheckoutSession = ({ productIds }: { productIds: string[] }) => {}
-  const isLoading = false
+  const { mutate: createCheckoutSession, isLoading } = trpc.payment.createSession.useMutation({
+    onSuccess: ({ url }) => {
+      if (url) router.push(url)
+    }
+  })
 
   const productIds = items.map(({ product }) => product.id)
 
